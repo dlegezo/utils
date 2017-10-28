@@ -1,3 +1,4 @@
+// Denis Legezo, Kaspersky Lab, 2017
 
 rule Crypt_Blowfish {
 	strings:
@@ -15,7 +16,7 @@ rule Crypt_Blowfish {
 
 rule Crypt_RC4_Init_Autoincrement {
 	strings:
-		$RC4_Init_Autoinc = { 88 04 30 40 3D 00 01 00  00 7C F5 }
+		$RC4_Init_Autoinc = { 88 04 30 40 3D 00 01 00 00 7C F5 }
 	condition:
 		filesize < 10MB and
 		(uint16(0)==0x457F or uint16(0)==0x5A4D) and

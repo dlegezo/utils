@@ -1,3 +1,5 @@
+// Denis Legezo, Kaspersky Lab, 2017
+
 #include <idc.idc>
 
 static locateResolver() {
