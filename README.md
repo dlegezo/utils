@@ -6,12 +6,14 @@ ______  __ _\_ |__ |  | |__| ____    __ ___/  |_|__|  |   ______
 |   __/|____/|___  /____/__|\___  > |____/ |__| |__|____/____  >
 |__|             \/             \/                           \/ 
 
-> c++ utils
-> idc scripts
+> bash
+	- Autostart debug at VMs
+> c++
+> idc
 	- GetProcAddress auto resolver
-> python scripts
-	- RTMS scanner
-> yara rules
+> python
+	- Road sensors scanner
+> yara
 	- crypto, compress, hashes
 
 </pre>
