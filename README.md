@@ -12,7 +12,9 @@ ______  __ _\_ |__ |  | |__| ____    __ ___/  |_|__|  |   ______
 > idc
 	- GetProcAddress auto resolver
 > python
-	- Road sensors scanner
+	- Road sensors (RTMS) scanner
+	- Get binary payload from scripts
+	- Get swf <- OLE2 <- CDFV2
 > yara
 	- crypto, compress, hashes
 
