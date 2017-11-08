@@ -10,9 +10,10 @@ ______  __ _\_ |__ |  | |__| ____    __ ___/  |_|__|  |   ______
 	- Autostart debug at VMs
 > c++
 > idc
+	- Get Unicode strings from stack
 	- GetProcAddress auto resolver
-        - Get Unicode strings from stack
 > python
+	- Timestamps histogram builder
 	- Road sensors (RTMS) scanner
 	- Get binary payload from scripts
 	- Get swf <- OLE2 <- CDFV2
