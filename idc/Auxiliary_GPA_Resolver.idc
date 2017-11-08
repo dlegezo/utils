@@ -1,5 +1,3 @@
-// Denis Legezo, Kaspersky Lab, 2017
-
 #include <idc.idc>
 
 static locateResolver() {
@@ -9,7 +7,7 @@ static locateResolver() {
         addrLoadLibrary = find_text(addrStartVA, SEARCH_DOWN, 0, 0, "LoadLibrary");
         addrResolverFunc = get_next_func(addrLoadLibrary);
         addrResolverFunc = get_prev_func(addrResolverFunc);
-        set_name(addrResolverFunc, "GPAResolver");
+        set_name(addrResolverFunc, "Resolver");
         return addrResolverFunc;
 }
 

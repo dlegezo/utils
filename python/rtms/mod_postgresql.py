@@ -11,7 +11,7 @@ pg_table_name = "tab_wifi_cao"
 # :::::::::::::::::::::::::::::::::::: sensors stuff :::::::::::::::::::::::::::::::::::::::
 # Connect to the database
 def pg_connect_db():
-    pg_conn_str = "host=localhost dbname="+pg_db_name+" user=postgres password=1"
+    pg_conn_str = "host=localhost dbname="+pg_db_name+" user=user_here password=pass_here"
     pg_conn = connect(pg_conn_str)
     return pg_conn
 
