@@ -11,6 +11,7 @@ ______  __ _\_ |__ |  | |__| ____    __ ___/  |_|__|  |   ______
 > c++
 > idc
 	- GetProcAddress auto resolver
+        - Get Unicode strings from stack
 > python
 	- Road sensors (RTMS) scanner
 	- Get binary payload from scripts
