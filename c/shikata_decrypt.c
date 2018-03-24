@@ -8,8 +8,15 @@
 #define shikata_initial_key_offset 0x08
 #define shikata_decryption_len_offset 0x10
 #define shikata_encrypted_block_offset 0x1A
-#define input_file "/home/u/malware/lucky_mouse/decompressor/thumb.db"
-#define output_file "/home/u/malware/lucky_mouse/decompressor/thumb_dec.db"
+
+struct shikata_header_struct {
+	uint8_t first_code[8];
+	uint8_t initial_key[4];
+	uint8_t second_code[4];
+	uint8_t decryption_len[2];
+	uint8_t third_code[8];
+	uint8_t *encrypted_block;
+} shikata_header;
 
 uint8_t *knuth_morris_pratt_failure(uint8_t *pattern, int pattern_length) {
 	uint8_t *failure = (uint8_t *)malloc(pattern_length);
@@ -99,18 +106,22 @@ uint8_t decrypt_shikata(uint8_t *shikata_file_code, int shikata_offset, int shik
 	return(0);
 }
 
-int main() {
+int main(int argc, char const *argv[])
+ {
 	uint8_t *shikata_file_code;
 	int encoded_file_size,
 		shikata_offset,
 		shikata_initial_key,
 		shikata_decryption_len;
-	char *shikata_file_name = (char *)input_file;
-	char *decrypted_file_name = (char *)output_file;
 	FILE *hEncoded, *hDecoded;
 
-	hEncoded = fopen(shikata_file_name, "rb");
-	hDecoded = fopen(decrypted_file_name, "wb");
+	if (argc != 3)	{
+		printf("Usage: shikata_decrypt <encrypted_file_name> <decrypted_file_name>\n");
+		return(1);
+	}
+
+	hEncoded = fopen(argv[1], "rb");
+	hDecoded = fopen(argv[2], "wb");
 
 	encoded_file_size = get_file_size(hEncoded);
 	shikata_file_code = (uint8_t *)malloc(encoded_file_size);
@@ -118,12 +129,13 @@ int main() {
 
 	shikata_offset = find_shikata(shikata_file_code, encoded_file_size);
 	printf("encoder/x86/shikata_ga_nai found at offset: %x\n", shikata_offset);
+
 	shikata_initial_key = get_shikata_initial_key(shikata_file_code, shikata_offset);
 	printf("shikata initial xor key: %x\n", shikata_initial_key);
 	shikata_decryption_len = get_shikata_decryption_len(shikata_file_code, shikata_offset);
 	printf("shikata decryption length: %x\n", shikata_decryption_len);
 	decrypt_shikata(shikata_file_code, shikata_offset, shikata_initial_key, shikata_decryption_len);
-	printf("decrypted file: %s\n", decrypted_file_name);
+	printf("decrypted file: %s\n", argv[2]);
 	fwrite(shikata_file_code, 1, encoded_file_size, hDecoded);
 	
 	fclose(hDecoded);
