@@ -8,7 +8,8 @@ ______  __ _\_ |__ |  | |__| ____    __ ___/  |_|__|  |   ______
 
 > bash
 	- Autostart debug at VMs
-> c++
+> c/c++
+	- encoder/x86/shikata_ga_nai decoder
 > idc
 	- Get Unicode strings from stack
 	- GetProcAddress auto resolver
