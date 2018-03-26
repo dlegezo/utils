@@ -15,10 +15,6 @@ struct shikata_prolog_struct {
 	uint8_t encrypted_block[];
 };
 
-shikata_prolog_struct *transform_to_prolog(uint8_t *data) {
-	return((shikata_prolog_struct *)data);
-}
-
 uint8_t *knuth_morris_pratt_failure(uint8_t *pattern, int pattern_length) {
 	uint8_t *failure = (uint8_t *)malloc(pattern_length);
 	uint8_t j = 0;
@@ -88,7 +84,7 @@ int find_shikata(uint8_t *shikata_file_code, int data_length) {
 	return(shikata_offset);
 }
 
-uint8_t decrypt_shikata_new(struct shikata_prolog_struct *code) {
+uint8_t decrypt_shikata(struct shikata_prolog_struct *code) {
 	int xor_key = get_int_value(code->initial_key, 4),
 		decryption_len = get_int_value(code->decryption_len, 2),
 		new_int_value,
@@ -125,13 +121,13 @@ int main(int argc, char const *argv[])
 
 	shikata_offset = find_shikata(shikata_file_code, encoded_file_size);
 	printf("encoder/x86/shikata_ga_nai found at offset: %x\n", shikata_offset);
-	shikata_prolog = transform_to_prolog(shikata_file_code + shikata_offset);
+	shikata_prolog = (struct shikata_prolog_struct *)(shikata_file_code + shikata_offset);
 
 	shikata_initial_key = get_int_value(shikata_prolog->initial_key, 4);
 	printf("shikata initial xor key: %x\n", shikata_initial_key);
 	shikata_decryption_len = get_int_value(shikata_prolog->decryption_len, 2);
 	printf("shikata decryption length: %x\n", shikata_decryption_len);
-	decrypt_shikata_new(shikata_prolog);
+	decrypt_shikata(shikata_prolog);
 	printf("decrypted file: %s\n", argv[2]);
 	fwrite(shikata_file_code, 1, encoded_file_size, hDecoded);
 	
