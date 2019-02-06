@@ -11,6 +11,7 @@ ______  __ _\_ |__ |  | |__| ____    __ ___/  |_|__|  |   ______
 > c/c++
 	- encoder/x86/shikata_ga_nai decoder
 > idc
+	- Resolver of Win32 API fuction call in VB6
 	- Get Unicode strings from stack
 	- GetProcAddress auto resolver
 > python
