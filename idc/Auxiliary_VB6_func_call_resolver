@@ -1,0 +1,40 @@
+
+// Resolver of Win32 API fuction call in VB6 through DllFunctionCall()
+#include <idc.idc>
+
+// sets corresponding Win32 API name
+// EA should be VB stub function start
+static set_api_func_name(ea) {
+    auto p_vb_stub_start, p_p_api_func_name, p_api_func_name, api_func_name;
+    
+    p_vb_stub_start = ea;
+    p_p_api_func_name = p_vb_stub_start - 0x14;
+    p_api_func_name = Dword(p_p_api_func_name);
+    api_func_name = get_strlit_contents(p_api_func_name, -1, 0);
+    set_name(p_vb_stub_start, api_func_name);
+}
+
+// gets next VB stub function address to rename
+// two opcodes matters - "mov A1" and "or 0B"
+static find_next_vb_stub(ea) {
+    auto p_curr_byte, curr_byte;
+    
+    p_curr_byte = ea;
+    curr_byte = Byte(p_curr_byte);
+    while (curr_byte != 0xA1) {
+        p_curr_byte = p_curr_byte + 1;
+        curr_byte = Byte(p_curr_byte);        
+    }
+    if (Word(p_curr_byte+5) != 0xC00B) {
+        find_next_vb_stub(p_curr_byte+1);
+    }
+    return(p_curr_byte);
+}
+
+static main() {
+    auto next_vb_stub;
+    
+    next_vb_stub = find_next_vb_stub(get_screen_ea());
+    add_func(next_vb_stub);
+    set_api_func_name(next_vb_stub);
+}
