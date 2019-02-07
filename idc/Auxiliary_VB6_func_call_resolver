@@ -17,15 +17,23 @@ static set_api_func_name(ea) {
 // gets next VB stub function address to rename
 // two opcodes matters - "mov A1" and "or 0B"
 static find_next_vb_stub(ea) {
-    auto p_curr_byte, curr_byte;
+    auto p_start, p_curr_byte, curr_byte;
     
+    p_start = ea;
     p_curr_byte = ea;
     curr_byte = Byte(p_curr_byte);
     while (curr_byte != 0xA1) {
+        if (p_curr_byte > p_start+0x1000) {
+            return(0);
+        }
         p_curr_byte = p_curr_byte + 1;
         curr_byte = Byte(p_curr_byte);        
     }
     if (Word(p_curr_byte+5) != 0xC00B) {
+        find_next_vb_stub(p_curr_byte+1);
+    } else {
+        add_func(p_curr_byte);
+        set_api_func_name(p_curr_byte);
         find_next_vb_stub(p_curr_byte+1);
     }
     return(p_curr_byte);
@@ -35,6 +43,4 @@ static main() {
     auto next_vb_stub;
     
     next_vb_stub = find_next_vb_stub(get_screen_ea());
-    add_func(next_vb_stub);
-    set_api_func_name(next_vb_stub);
 }
